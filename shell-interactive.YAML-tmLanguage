@@ -1,0 +1,69 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: Shell Script (interactive)
+scopeName: source.interactive.shell
+fileTypes: []
+uuid: c81eaa29-76b7-4ed2-a611-846d6563ef74
+
+patterns:
+- begin: '^(\$) sage$|^(\| Sage Version [0-9.]+, Release Date: .*\|)$'
+  end: '^Exiting Sage \(CPU time.*Wall time.*\)\.$'
+  patterns:
+  - include: 'source.interactive.sage'
+  beginCaptures:
+    '1':
+      name: interactive.prompt.shell
+    '2':
+      name: interactive.output.sage
+  endCaptures:
+    '0':
+      name: interactive.output.sage
+
+- begin: '^(\$) magma$|^(Magma V[0-9].*\[Seed = [0-9]+\])$'
+  end: '^Total time:.*Total memory usage:.*'
+  patterns:
+  - include: source.interactive.magma
+  beginCaptures:
+    '1':
+      name: interactive.prompt.shell
+    '2':
+      name: interactive.output.magma
+
+- begin: '^(\$|>) '
+  end: '$'
+  patterns:
+  - include: source.shell
+  beginCaptures:
+    '0':
+      name: interactive.prompt.shell
+
+- match: '^.+$'
+  name: interactive.output.shell
+
+# repository:
+#   'source-interactive-sage':
+#     patterns:
+#     - begin: 'sage:'
+#       end: '$'
+#       patterns:
+#       - include: source.python
+#       beginCaptures:
+#         '0':
+#           name: interactive.prompt.sage
+
+#     - match: '^(([A-Za-z_][A-Za-z_0-9]+)?Error:).*'
+#       name: interactive.output.sage
+#       captures:
+#         '1':
+#           name: interactive.output.error.sage
+
+#     - match: '^(([A-Za-z_][A-Za-z_0-9]+)?Error)\s+Traceback \(most recent call last\)$'
+#       captures:
+#         '0':
+#           name: interactive.output.sage
+#         '1':
+#           name: interactive.output.error.sage
+
+#     - match: '^.+$'
+#       name: interactive.output.sage
+...
